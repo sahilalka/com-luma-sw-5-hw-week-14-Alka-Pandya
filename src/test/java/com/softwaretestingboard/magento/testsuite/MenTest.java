@@ -1,0 +1,46 @@
+package com.softwaretestingboard.magento.testsuite;
+
+import com.softwaretestingboard.magento.customlisteners.CustomListeners;
+import com.softwaretestingboard.magento.pages.MenPage;
+import com.softwaretestingboard.magento.testbase.BaseTest;
+import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Listeners;
+import org.testng.annotations.Test;
+
+@Listeners(CustomListeners.class)
+public class MenTest extends BaseTest {
+    MenPage menPage;
+    @BeforeMethod(alwaysRun = true)
+    public void inIt(){menPage = new MenPage();}
+    @Test(groups = {"sanity","regression"})
+    public void  userShouldAddProductSuccessFullyToShoppingCart()throws InterruptedException{
+        menPage.mouseHoverOnMenMenuTab();
+        menPage.mouseHoverOnBottomsMenuTab();
+        menPage.clickOnPants();
+        menPage.mouseHoverOnProductsName();
+        menPage.clickOnProductSize();
+        menPage.mouseHoverOnProductsName();
+        menPage.clickOnProductColor();
+        menPage.mouseHoverOnProductsName();
+        Thread.sleep(2000);
+        menPage.clickOnAddToCart();
+        // Verify the text ‘You added Cronus Yoga Pant to your shopping cart.’
+        Assert.assertEquals(menPage.getCronusYogaPantAddedText(),"You added Cronus Yoga Pant to your shopping cart.","Error");
+        menPage.clickOnShoppingCartLink();
+        //Verify the text ‘Shopping Cart.’
+        Assert.assertEquals(menPage.getShoppingCartText(),"Shopping Cart","Error");
+        // Verify the product name ‘Cronus Yoga Pant’
+        Assert.assertEquals(menPage.getCronusYogaPantText(),"Cronus Yoga Pant","Error");
+        // Verify the product size ‘32’
+        Assert.assertEquals(menPage.getProductSize32Text(),"32","Error");
+        //  Verify the product colour ‘Black’
+        Assert.assertEquals(menPage.getBlackColorProductText(),"Black","Error");
+
+
+
+
+
+
+    }
+}
